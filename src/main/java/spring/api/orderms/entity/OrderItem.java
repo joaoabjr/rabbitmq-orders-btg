@@ -10,7 +10,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class OrderDTO {
+public class OrderItem {
 
     private String product;
 
@@ -19,7 +19,7 @@ public class OrderDTO {
     @Field(targetType = FieldType.DECIMAL128)
     private BigDecimal price;
 
-    public OrderDTO(String product, Integer quantity, BigDecimal price) {
+    public OrderItem(String product, Integer quantity, BigDecimal price) {
         this.product = product;
         this.quantity = quantity;
         this.price = price;

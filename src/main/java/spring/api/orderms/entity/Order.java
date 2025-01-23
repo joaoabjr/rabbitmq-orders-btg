@@ -26,5 +26,5 @@ public class Order {
     @Field(targetType = FieldType.DECIMAL128)
     private BigDecimal total;
 
-    private List<OrderDTO> items;
+    private List<OrderItem> items;
 }
