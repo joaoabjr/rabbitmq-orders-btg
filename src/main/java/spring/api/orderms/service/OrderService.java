@@ -5,10 +5,9 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import spring.api.orderms.entity.Order;
+import spring.api.orderms.entity.OrderEntity;
 import spring.api.orderms.entity.OrderItem;
 import spring.api.orderms.listener.dto.OrderCreatedEvent;
-import spring.api.orderms.listener.dto.OrderItemEvent;
 import spring.api.orderms.repository.OrderRepository;
 
 @Service
@@ -21,12 +20,14 @@ public class OrderService {
     }
 
     public void save(OrderCreatedEvent event) {
-        var orderEntity = new Order();
+        var entity = new OrderEntity();
 
-        orderEntity.setId(event.codigoPedido());
-        orderEntity.setCostumerId(event.codigoCliente());
-        orderEntity.setItems(getOrderItems(event));
-        orderEntity.setTotal(getTotal(event));
+        entity.setId(event.codigoPedido());
+        entity.setCostumerId(event.codigoCliente());
+        entity.setItems(getOrderItems(event));
+        entity.setTotal(getTotal(event));
+
+        orderRepository.save(entity);
     }
 
     private BigDecimal getTotal(OrderCreatedEvent event) {
@@ -42,5 +43,4 @@ public class OrderService {
                 .map(item -> new OrderItem(item.produto(), item.quantidade(), item.preco()))
                 .toList();
     }
-
 }

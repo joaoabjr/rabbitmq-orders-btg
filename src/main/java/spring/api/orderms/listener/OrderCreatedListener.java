@@ -6,9 +6,9 @@ import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.messaging.Message;
 import org.springframework.stereotype.Component;
 
-import spring.api.orderms.config.RabbitMqConfig;
 import spring.api.orderms.listener.dto.OrderCreatedEvent;
 import spring.api.orderms.service.OrderService;
+import static spring.api.orderms.config.RabbitMqConfig.ORDER_CREATED_QUEUE;
 
 @Component
 public class OrderCreatedListener {
@@ -21,7 +21,7 @@ public class OrderCreatedListener {
         this.orderService = orderService;
     }
 
-    @RabbitListener(queues = RabbitMqConfig.ORDER_CREATED_QUEUE)
+    @RabbitListener(queues = ORDER_CREATED_QUEUE)
     public void listen(Message<OrderCreatedEvent> message) {
         logger.info("Message consumed: {}", message);
 
