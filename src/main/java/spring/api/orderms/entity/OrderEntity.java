@@ -18,7 +18,7 @@ import lombok.Setter;
 public class OrderEntity {
 
     @MongoId
-    private Long id;
+    private Long orderId;
 
     @Indexed(name = "costumer_id_index")
     private Long costumerId;
