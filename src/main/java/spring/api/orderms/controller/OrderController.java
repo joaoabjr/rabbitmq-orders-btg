@@ -21,10 +21,11 @@ public class OrderController {
         this.orderService = orderService;
     }
 
-    @GetMapping("/customers/{customerId}/orderms")
-    public ResponseEntity<ApiResponse<OrderResponse>> listOrders(@PathVariable("customerId") Long customerId,
+    @GetMapping("/customers/{customerId}/orders")
+    public ResponseEntity<ApiResponse<OrderResponse>> listOrders(
+            @PathVariable("customerId") Long customerId,
             @RequestParam(name = "page", defaultValue = "0") Integer page,
-            @RequestParam(name = "pageSize", defaultValue = "0") Integer pageSize) {
+            @RequestParam(name = "pageSize", defaultValue = "10") Integer pageSize) {
 
         var pageResponse = orderService.findAllByCustomerId(customerId, PageRequest.of(page, pageSize));
 
