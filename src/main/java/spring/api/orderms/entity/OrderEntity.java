@@ -12,13 +12,13 @@ import org.springframework.data.mongodb.core.mapping.MongoId;
 import lombok.Getter;
 import lombok.Setter;
 
-@Document(collection = "tb_orders")
 @Getter
 @Setter
-public class Order {
+@Document(collection = "tb_orders")
+public class OrderEntity {
 
     @MongoId
-    private Long id;
+    private Long orderId;
 
     @Indexed(name = "costumer_id_index")
     private Long costumerId;
@@ -27,4 +27,7 @@ public class Order {
     private BigDecimal total;
 
     private List<OrderItem> items;
+
+    public OrderEntity() {
+    }
 }

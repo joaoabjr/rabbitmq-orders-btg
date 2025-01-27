@@ -3,12 +3,14 @@ package spring.api.orderms.service;
 import java.math.BigDecimal;
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
-import spring.api.orderms.entity.Order;
+import spring.api.orderms.controller.dto.OrderResponse;
+import spring.api.orderms.entity.OrderEntity;
 import spring.api.orderms.entity.OrderItem;
 import spring.api.orderms.listener.dto.OrderCreatedEvent;
-import spring.api.orderms.listener.dto.OrderItemEvent;
 import spring.api.orderms.repository.OrderRepository;
 
 @Service
@@ -21,12 +23,20 @@ public class OrderService {
     }
 
     public void save(OrderCreatedEvent event) {
-        var orderEntity = new Order();
+        var entity = new OrderEntity();
 
-        orderEntity.setId(event.codigoPedido());
-        orderEntity.setCostumerId(event.codigoCliente());
-        orderEntity.setItems(getOrderItems(event));
-        orderEntity.setTotal(getTotal(event));
+        entity.setOrderId(event.codigoPedido());
+        entity.setCostumerId(event.codigoCliente());
+        entity.setItems(getOrderItems(event));
+        entity.setTotal(getTotal(event));
+
+        orderRepository.save(entity);
+    }
+
+    public Page<OrderResponse> findAllByCustomerId(Long customerId, PageRequest pageRequest) {
+        var orders = orderRepository.findAllByCustomerId(customerId, pageRequest);
+
+        return orders.map(OrderResponse::fromEntity);
     }
 
     private BigDecimal getTotal(OrderCreatedEvent event) {
@@ -42,5 +52,4 @@ public class OrderService {
                 .map(item -> new OrderItem(item.produto(), item.quantidade(), item.preco()))
                 .toList();
     }
-
 }
